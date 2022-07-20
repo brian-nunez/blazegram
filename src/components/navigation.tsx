@@ -39,11 +39,11 @@ function Navigation() {
       <React.Fragment>
         <button
           className="bg-sky-500 text-white font-bold text-base py-1 px-3 rounded"
-          onClick={() => { signIn('github'); }}
+          onClick={() => { signIn(); }}
         >Log In</button>
         <button
           className="text-sky-500 bg-white font-bold text-base py-1 px-3"
-          onClick={() => { signIn('github'); }}
+          onClick={() => { signIn(); }}
         >Sign Up</button>
       </React.Fragment>
     );
