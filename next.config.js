@@ -10,6 +10,7 @@ const nextConfig = {
       'cdn.discordapp.com',
       'instagram.fphx1-1.fna.fbcdn.net',
       'instagram.fphx1-2.fna.fbcdn.net',
+      'via.placeholder.com',
     ],
   },
 };

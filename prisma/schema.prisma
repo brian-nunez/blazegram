@@ -1,17 +1,12 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "mysql"
-    // url      = "file:./db.sqlite"
-    url      = env("DATABASE_URL")
+    provider = "sqlite"
+    url      = "file:./db.sqlite"
 }
 
-// Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
     userId            String
@@ -45,9 +40,10 @@ model User {
     emailVerified DateTime?
     image         String?
     accounts      Account[]
+    Comment       Comment[]
+    Post          Post[]
     sessions      Session[]
-    Profile       Profile[]
-    Image         Image[]
+    profile       Profile?
 }
 
 model VerificationToken {
@@ -58,24 +54,51 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-// create a model for an Image
 model Image {
     id          String   @id @default(cuid())
     name        String
     url         String
     description String?
-    userId      String
-    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    Profile     Profile? @relation(fields: [profileId], references: [id])
     profileId   String?
+    Profile     Profile? @relation(fields: [profileId], references: [id])
 }
 
-// create a model "Profile" for a user's profile and images
 model Profile {
     id          String  @id @default(cuid())
     name        String
+    tag         String?
     description String?
-    userId      String
-    user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
     images      Image[]
+    posts       Post[]
+    userId      String  @unique
+    user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Post {
+    id        String    @id @default(cuid())
+    title     String
+    content   String
+    published Boolean
+    authorId  String
+    profileId String?
+    author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    Profile   Profile?  @relation(fields: [profileId], references: [id])
+    comments  Comment[]
+    tags      Tag[]
+}
+
+model Comment {
+    id       String @id @default(cuid())
+    text     String
+    authorId String
+    postId   String
+    author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Tag {
+    id     String @id @default(cuid())
+    name   String
+    postId String
+    post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 }

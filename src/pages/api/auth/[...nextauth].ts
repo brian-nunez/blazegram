@@ -18,14 +18,21 @@ export const authOptions: NextAuthOptions = {
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
-  debug: true,
   secret: env.SECRET,
   providers: [
     GitHubProvider({
       clientId: env.GITHUB_ID,
       clientSecret: env.GITHUB_SECRET,
+      authorization: {
+        params: {
+          scope: 'read:user user:email',
+        }
+      }
     }),
   ],
+  pages: {
+    signIn: '/auth/signin',
+  },
 };
 
 export default NextAuth(authOptions);

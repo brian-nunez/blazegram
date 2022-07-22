@@ -22,7 +22,6 @@ function ProfileDisplay() {
   const router = useRouter();
   const { tag } = router.query as { tag: string };
   const profile = trpc.useQuery(['profile.getByTag', { tag }]);
-  console.log(profile, tag);
 
   if (profile.isLoading) {
     return null;
@@ -59,12 +58,12 @@ function ProfileDisplay() {
               </p>
             </div>
             <p className="font-bold text-lg">{profile.data?.name}</p>
-            <p className="font-sans text-lg">{profile?.data?.bio}</p>
+            <p className="font-sans text-lg">{profile?.data?.description}</p>
           </div>
         </div>
         <hr className="w-full my-10" />
         <div className="w-full grid grid-cols-3 gap-4">
-          {profile?.data?.posts.map((post) => (
+          {profile?.data?.posts?.map((post) => (
             <div className="w-full h-full select-none relative" key={post.id}>
               <div
                 className="absolute w-full h-full z-10 bg-red opacity-0 hover:opacity-100 hover:cursor-pointer"

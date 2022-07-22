@@ -4,7 +4,7 @@ import { signOut, useSession } from 'next-auth/react';
 import Layout from "../components/layout";
 
 const Home: NextPage = () => {
-  const { status } = useSession();
+  const { status, data } = useSession();
 
   return (
     <Layout>
@@ -14,15 +14,14 @@ const Home: NextPage = () => {
         </h1>
         <Link
           href="/u/demo_account"
-          onClick={() => { signOut(); }}
         >
           <a
-            className="text-white bg-sky-500 rounded font-bold px-4 py-2 my-4"
+            className="text-white bg-purple-500 rounded font-bold px-4 py-2 my-4"
           >
             View Account
           </a>
         </Link>
-        {status === 'authenticated' && <button className="text-white bg-sky-500 rounded font-bold px-4 py-2" onClick={() => { signOut(); }}>Logout</button>}
+        {status === 'authenticated' && <button className="text-white bg-purple-500 rounded font-bold px-4 py-2" onClick={() => { signOut(); }}>Logout</button>}
       </main>
     </Layout>
   );
