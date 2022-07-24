@@ -31,6 +31,18 @@ function ProfileDisplay() {
     return <div>Error</div>;
   }
 
+  if (!profile.data?.tag) {
+    return (
+      <Layout>
+        <main className="container mx-auto xl:w-6/12 lg:w-full flex flex-col items-center justify-center p-4">
+          <h1 className="text-center text-2xl font-bold">
+            Profile not found
+          </h1>
+        </main>
+      </Layout>
+    );
+  }
+
   return (
     <Layout title={`${profile?.data?.name} (@${profile.data?.tag})`}>
       <main className="container mx-auto xl:w-6/12 lg:w-full flex flex-col items-center justify-center p-4">
@@ -63,7 +75,7 @@ function ProfileDisplay() {
         </div>
         <hr className="w-full my-10" />
         <div className="w-full grid grid-cols-3 gap-4">
-          {profile?.data?.posts?.map((post) => (
+          {profile?.data?.posts?.map((post: any) => (
             <div className="w-full h-full select-none relative" key={post.id}>
               <div
                 className="absolute w-full h-full z-10 bg-red opacity-0 hover:opacity-100 hover:cursor-pointer"
