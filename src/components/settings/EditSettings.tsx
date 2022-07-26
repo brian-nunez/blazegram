@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -75,7 +74,7 @@ function EditSettings({
       ...values,
       profileId: profile?.id,
     });
-  }, [profile]);
+  }, [profile, updateProfile]);
 
   const {
     handleSubmit,

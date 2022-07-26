@@ -3,11 +3,11 @@ import type { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import classnames from 'classnames';
-import { prisma } from '../../../server/db/client';
 import Link from 'next/link';
+import { Profile, User } from '@prisma/client';
+import { prisma } from '../../../server/db/client';
 import Layout from '../../../components/layout';
 import EditSettings from '../../../components/settings/EditSettings';
-import { Profile, User } from '@prisma/client';
 
 const settingsMap = {
   edit: {

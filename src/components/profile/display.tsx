@@ -1,6 +1,5 @@
 import React from "react";
 import Image from 'next/image';
-import { trpc } from "../../utils/trpc";
 import { Profile, User } from "@prisma/client";
 
 function numberToString(num: number): string {

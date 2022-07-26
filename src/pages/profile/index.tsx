@@ -2,7 +2,6 @@ import React from 'react';
 import type { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
 import { Profile, User } from '@prisma/client';
-import { useRouter } from 'next/router';
 import Layout from '../../components/layout';
 import EditSettings from '../../components/settings/EditSettings';
 import ProfileDisplay from '../../components/profile/display';
@@ -14,8 +13,6 @@ type ProfileProps = {
 };
 
 function Profile({ profile, user }: ProfileProps) {
-  const router = useRouter();
-
   return (
     <Layout>
       <main className="container mx-auto xl:w-6/12 lg:w-full flex flex-col items-center justify-center p-4">
