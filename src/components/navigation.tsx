@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { HomeIcon, PlusCircleIcon, UserCircleIcon } from '@heroicons/react/outline';
+import { HomeIcon, PlusCircleIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSession, signIn, signOut } from 'next-auth/react';

@@ -7,7 +7,7 @@ function Settings() {
 
   useLayoutEffect(() => {
     router.push('/profile/settings/edit');
-  }, []);
+  }, [router]);
 
   return null;
 
