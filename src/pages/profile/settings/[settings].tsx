@@ -1,11 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import type { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
-import { getSession, useSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import classnames from 'classnames';
+import { prisma } from '../../../server/db/client';
 import Link from 'next/link';
 import Layout from '../../../components/layout';
 import EditSettings from '../../../components/settings/EditSettings';
+import { Profile, User } from '@prisma/client';
 
 const settingsMap = {
   edit: {
@@ -49,7 +51,15 @@ function SettingOption({
   );
 }
 
-function Settings() {
+type SettingsProps = {
+  profile: Partial<Profile>;
+  user: Partial<User>;
+};
+
+function Settings({
+  user,
+  profile,
+}: SettingsProps) {
   const router = useRouter();
   const [setting, setSetting] = useState<SettingState>(SettingState.edit);
   const ComponentContent = useMemo(() => {
@@ -85,7 +95,7 @@ function Settings() {
             </SettingOption>
           </div>
           <div className="col-span-3 px-16 py-8">
-            <ComponentContent />
+            <ComponentContent profile={profile} user={user} />
           </div>
         </div>
       </main>
@@ -106,8 +116,32 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
+  const user = await prisma.user.findFirst({
+    where: {
+      id: session.user?.id,
+    },
+    include: {
+      profile: true,
+    }
+  });
+
+  if (!user || !user.profile) {
+    return {
+      redirect: {
+        destination: '/error',
+        permanent: false,
+      },
+      props: {},
+    };
+  }
+
+  const { profile, ...rest } = user;
+
   return {
-    props: {},
+    props: {
+      profile,
+      user: rest,
+    },
   };
 }
 

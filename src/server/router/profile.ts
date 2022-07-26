@@ -94,7 +94,7 @@ export const profileRouter = createRouter()
         });
 
         if (profileExists) {
-          throw new TRPCError({ code: 'CONFLICT', message: 'Tag already exists' });
+          throw new TRPCError({ code: 'CONFLICT', message: 'CONFLICT' });
         }
 
         if (input.profileId) {

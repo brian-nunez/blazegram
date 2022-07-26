@@ -1,10 +1,11 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Link from 'next/link';
-import { signOut, useSession } from 'next-auth/react';
+import { getSession, signOut, useSession } from 'next-auth/react';
+import { prisma } from "../server/db/client";
 import Layout from "../components/layout";
 
 const Home: NextPage = () => {
-  const { status, data } = useSession();
+  const { status } = useSession();
 
   return (
     <Layout>
@@ -25,6 +26,41 @@ const Home: NextPage = () => {
       </main>
     </Layout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession({ ctx });
+
+  if (!session) {
+    return {
+      props: {},
+    };
+  }
+
+  console.log(session);
+
+  const user = await prisma.user.findFirst({
+    where: {
+      id: session.user?.id,
+    },
+    include: {
+      profile: true,
+    },
+  });
+
+  if (!user?.profile?.tag) {
+    return {
+      props: {},
+      redirect: {
+        destination: '/profile',
+        permanent: true,
+      }
+    };
+  }
+
+  return {
+    props: {},
+  }
 };
 
 export default Home;

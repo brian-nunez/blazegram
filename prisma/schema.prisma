@@ -4,9 +4,9 @@ generator client {
 }
 
 datasource db {
-    provider             = "mysql"
-    // url      = "file:./db.sqlite"
-    url                  = env("DATABASE_URL")
+    provider             = "sqlite"
+    url                  = "file:./db.sqlite"
+    // url                  = env("DATABASE_URL")
     referentialIntegrity = "prisma"
 }
 
@@ -71,6 +71,8 @@ model Profile {
     name        String
     tag         String?
     description String?
+    followers   Int     @default(0)
+    following   Int     @default(0)
     images      Image[]
     posts       Post[]
     userId      String  @unique
