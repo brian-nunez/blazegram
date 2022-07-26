@@ -3,7 +3,6 @@ import type { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import classnames from 'classnames';
-import Link from 'next/link';
 import { Profile, User } from '@prisma/client';
 import { prisma } from '../../../server/db/client';
 import Layout from '../../../components/layout';
@@ -34,20 +33,21 @@ function SettingOption({
   showHighlight: boolean;
   name: String;
 }) {
+  const router = useRouter();
+
   return (
-    <Link
-      href={`/profile/settings/${name}`}
+    <button
+      onClick={() => {
+        router.replace(`/profile/settings/${name}`);
+      }}
+      className={classnames(
+        'text-left text-base px-6 py-4 hover:bg-black/5 border-l-[0.19rem]', {
+        'border-black font-bold': showHighlight,
+        'border-transparent': !showHighlight,
+      })}
     >
-      <a
-        className={classnames(
-          'text-left text-base px-6 py-4 hover:bg-black/5 border-l-[0.19rem]', {
-          'border-black font-bold': showHighlight,
-          'border-transparent': !showHighlight,
-        })}
-      >
-        {children}
-      </a>
-    </Link>
+      {children}
+    </button>
   );
 }
 
